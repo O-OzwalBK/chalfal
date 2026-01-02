@@ -1,6 +1,21 @@
 import { Link } from "react-router";
 import { toggleTheme } from "../../theme/theme.js";
+import { useState } from "react";
+
 export default function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  function handleChange(eventObject) {
+    const { name, value } = eventObject.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function handleSubmit(eventObject) {
+    eventObject.preventDefault();
+  }
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-neutral-900 transition-colors">
       <div className="w-full max-w-md bg-white dark:bg-neutral-800 rounded-2xl shadow-xl p-8 space-y-6">
@@ -23,15 +38,18 @@ export default function Login() {
         </p>
 
         {/* Form */}
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">
               Email
             </label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
               placeholder="you@example.com"
               className="w-full px-4 py-2 rounded-xl bg-gray-100 dark:bg-neutral-700 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleChange}
             />
           </div>
 
@@ -41,8 +59,11 @@ export default function Login() {
             </label>
             <input
               type="password"
+              name="password"
+              value={formData.password}
               placeholder="••••••••"
               className="w-full px-4 py-2 rounded-xl bg-gray-100 dark:bg-neutral-700 text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={handleChange}
             />
           </div>
 
