@@ -7,6 +7,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import express from "express";
 import { config } from "dotenv";
+import cookieParser from "cookie-parser";
 
 import { connectToDB } from "./db/connectDB.js";
 
@@ -28,6 +29,10 @@ const ROOM = "global chat";
 /** Express application instance. */
 const app = express();
 
+// middlewares
+app.use(cookieParser());
+app.use(express.json());
+
 /** HTTP server wrapping the Express app. */
 const httpServer = createServer(app);
 
@@ -38,6 +43,8 @@ const httpServer = createServer(app);
 const socketServer = new Server(httpServer, {
   cors: {
     origin: [process.env.ORIGIN],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: false,
   },
 });
 
